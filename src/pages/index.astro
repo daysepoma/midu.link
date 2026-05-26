@@ -9,21 +9,32 @@ const sortedLinks = [...links].sort((a, b) => a.slug.localeCompare(b.slug));
 	<main>
 		<header>
 			<h1>midu.link</h1>
-			<p class="subtitle">Acortador de URLs de <a href="https://midu.dev" target="_blank" rel="noopener">midudev</a></p>
-			<p class="count">{links.length} enlaces disponibles</p>
+			<p class="subtitle">Acortador de URLs de <a href="https://midu.dev" target="_blank" rel="noopener noreferrer">midudev</a></p>
+			<p class="count"><span id="count">{links.length}</span> enlaces disponibles</p>
 		</header>
 
-		<section class="links">
+		<div class="search-wrapper">
+			<input
+				id="search"
+				type="search"
+				placeholder="Buscar enlace..."
+				autocomplete="off"
+				autofocus
+			/>
+		</div>
+
+		<section class="links" id="links-list">
 			{sortedLinks.map(({ slug, url }) => {
 				let displayUrl = url;
 				try {
 					const u = new URL(url);
 					displayUrl = u.hostname + (u.pathname !== '/' ? u.pathname : '');
-					if (displayUrl.length > 50) displayUrl = displayUrl.slice(0, 50) + '…';
-				} catch {}
+				} catch (e) {
+					console.warn(`Invalid URL for slug "${slug}":`, e);
+				}
 
 				return (
-					<a href={`/${slug}`} class="link-card" data-url={url}>
+					<a href={`/${slug}`} class="link-card" data-slug={slug} data-target={displayUrl}>
 						<div class="link-slug">
 							<span class="domain">midu.link/</span><span class="slug">{slug}</span>
 						</div>
@@ -32,8 +43,35 @@ const sortedLinks = [...links].sort((a, b) => a.slug.localeCompare(b.slug));
 				);
 			})}
 		</section>
+
+		<p id="no-results" class="no-results" hidden>No se encontraron enlaces.</p>
 	</main>
 </Layout>
+
+<script>
+	const search = document.getElementById('search') as HTMLInputElement;
+	const list = document.getElementById('links-list')!;
+	const count = document.getElementById('count')!;
+	const noResults = document.getElementById('no-results')!;
+	const cards = Array.from(list.querySelectorAll<HTMLElement>('.link-card'));
+	const total = cards.length;
+
+	search.addEventListener('input', () => {
+		const query = search.value.trim().toLowerCase();
+		let visible = 0;
+
+		for (const card of cards) {
+			const slug = card.dataset.slug!.toLowerCase();
+			const target = card.dataset.target!.toLowerCase();
+			const matches = !query || slug.includes(query) || target.includes(query);
+			card.hidden = !matches;
+			if (matches) visible++;
+		}
+
+		count.textContent = String(query ? visible : total);
+		noResults.hidden = visible > 0;
+	});
+</script>
 
 <style>
 	main {
@@ -77,6 +115,37 @@ const sortedLinks = [...links].sort((a, b) => a.slug.localeCompare(b.slug));
 		color: #737373;
 		font-size: 0.9rem;
 		font-variant-numeric: tabular-nums;
+	}
+
+	.search-wrapper {
+		margin-bottom: 1.5rem;
+	}
+
+	#search {
+		width: 100%;
+		padding: 0.75rem 1rem;
+		border-radius: 0.75rem;
+		background: #171717;
+		border: 1px solid #262626;
+		color: #e5e5e5;
+		font-size: 1rem;
+		font-family: inherit;
+		outline: none;
+		transition: border-color 0.15s;
+	}
+
+	#search::placeholder {
+		color: #525252;
+	}
+
+	#search:focus {
+		border-color: #60a5fa;
+	}
+
+	.no-results {
+		text-align: center;
+		color: #525252;
+		padding: 2rem 0;
 	}
 
 	.links {
