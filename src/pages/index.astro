@@ -48,7 +48,7 @@ const sortedLinks = [...links].sort((a, b) => a.slug.localeCompare(b.slug));
 	</main>
 </Layout>
 
-<script>
+<script lang="ts">
 	const search = document.getElementById('search') as HTMLInputElement;
 	const list = document.getElementById('links-list')!;
 	const count = document.getElementById('count')!;
