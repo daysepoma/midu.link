@@ -44,6 +44,10 @@
     "url": "https://docs.microsoft.com/es-es/learn/student-hub/"
   },
   {
+    "slug": "apify-code",
+    "url": "https://apify.it/4vpYJog"
+  },
+  {
     "slug": "arc",
     "url": "https://m.arc.dev/3mjfpME"
   },
@@ -478,6 +482,10 @@
   {
     "slug": "mcp",
     "url": "https://www.youtube.com/watch?v=wnHczxwukYY"
+  },
+  {
+    "slug": "mcp-connector",
+    "url": "https://apify.it/4aMzxjx"
   },
   {
     "slug": "me-apunto",
