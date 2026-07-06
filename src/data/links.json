@@ -604,6 +604,10 @@
     "url": "https://midu.dev/proyectos2024.png"
   },
   {
+    "slug": "proton",
+    "url": "https://www.proton.me/lumo/midudev"
+  },
+  {
     "slug": "public-apis",
     "url": "https://github.com/public-apis/public-apis"
   },
