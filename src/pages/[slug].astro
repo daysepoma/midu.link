@@ -1,0 +1,34 @@
+---
+export const prerender = false;
+
+import links from '../data/links.json';
+import sql from '../lib/db';
+
+const { slug } = Astro.params;
+const link = links.find((entry) => entry.slug === slug);
+
+if (!link) {
+  return new Response(null, { status: 404 });
+}
+
+const url = new URL(Astro.request.url);
+
+try {
+  await sql`
+    INSERT INTO link_visits (slug, target_url, referrer, utm_source, utm_medium, utm_campaign, user_agent)
+    VALUES (
+      ${slug},
+      ${link.url},
+      ${Astro.request.headers.get('referer')},
+      ${url.searchParams.get('utm_source')},
+      ${url.searchParams.get('utm_medium')},
+      ${url.searchParams.get('utm_campaign')},
+      ${Astro.request.headers.get('user-agent')}
+    )
+  `;
+} catch (error) {
+  console.error('Failed to log link visit', error);
+}
+
+return Astro.redirect(link.url, 301);
+---

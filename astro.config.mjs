@@ -1,14 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import links from './src/data/links.json';
 
-import vercel from '@astrojs/vercel';
-
-const redirects = Object.fromEntries(
-  links.map(({ slug, url }) => [`/${slug}`, url])
-);
+import node from '@astrojs/node';
 
 export default defineConfig({
-  redirects,
-  adapter: vercel(),
+  adapter: node({ mode: 'standalone' }),
 });

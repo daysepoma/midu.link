@@ -1,5 +1,25 @@
 [
   {
+    "slug": "dayse-linkedin",
+    "url": "https://www.linkedin.com/in/daysepoma"
+  },
+  {
+    "slug": "dayse-figma",
+    "url": "https://www.figma.com/@daysepoma"
+  },
+  {
+    "slug": "dayse-github",
+    "url": "https://github.com/daysepoma"
+  },
+  {
+    "slug": "dayse-instagram",
+    "url": "https://www.instagram.com/daysepoma"
+  },
+  {
+    "slug": "dayse-portfolio",
+    "url": "https://daysepoma.com/"
+  },
+  {
     "slug": "1",
     "url": "https://replit.com/learn/100-days-of-python?utm_medium=referral&utm_campaign=100_days_of_code_python"
   },
